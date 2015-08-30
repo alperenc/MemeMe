@@ -33,6 +33,9 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="60r-va-LIN"/>
                                     <barButtonItem systemItem="action" id="ziH-2o-eHz">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="shareMeme:" destination="BYZ-38-t0r" id="Ko3-Qt-vtO"/>
+                                        </connections>
                                     </barButtonItem>
                                 </items>
                                 <color key="barTintColor" red="0.35294117650000001" green="0.73333333329999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>

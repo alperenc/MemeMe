@@ -74,9 +74,27 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
     }
     
-    func save() {
-        let meme = Meme(topText: topTextField.text, bottomText: bottomTextField.text, image: imageView.image, memedImage: imageView.image)
-        print(meme)
+    @IBAction func shareMeme(sender: AnyObject) {
+        let memedImage = generateMemedImage()
+        
+        let activityController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
+        
+        self.presentViewController(activityController, animated: true, completion: nil)
+        
+        activityController.completionWithItemsHandler = {
+            (activity, success, items, error) in
+            self.save()
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    func save() -> Meme {
+        
+        let meme = Meme(topText: topTextField.text, bottomText: bottomTextField.text, image: imageView.image, memedImage: generateMemedImage())
+        
+        print("Meme saved.")
+        
+        return meme
         
     }
     
