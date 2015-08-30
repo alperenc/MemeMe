@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A263e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="15A263e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="HelveticaNeueExtras.ttc">
@@ -36,7 +37,7 @@
                                 </items>
                                 <color key="barTintColor" red="0.35294117650000001" green="0.73333333329999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="ckL-wl-k12">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="ckL-wl-k12">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <animations/>
                                 <items>
@@ -58,58 +59,63 @@
                                 </items>
                                 <color key="barTintColor" red="0.35294117650000001" green="0.73333333329999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="fqy-nk-l00">
-                                <rect key="frame" x="20" y="64" width="560" height="492"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="fqy-nk-l00">
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <animations/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="VgG-bo-x0D">
-                                <rect key="frame" x="264" y="502" width="72" height="24"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" minimumFontSize="24" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="VgG-bo-x0D">
+                                <rect key="frame" x="20" y="488" width="560" height="48"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="40"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ByS-Si-SAv">
-                                <rect key="frame" x="282.5" y="94" width="36" height="24"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="center" minimumFontSize="24" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ByS-Si-SAv">
+                                <rect key="frame" x="20" y="84" width="560" height="48"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="40"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.35294117650000001" green="0.73333333329999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="fqy-nk-l00" secondAttribute="trailing" constant="20" symbolic="YES" id="3eD-5a-3K1"/>
+                            <constraint firstAttribute="trailing" secondItem="fqy-nk-l00" secondAttribute="trailing" id="3eD-5a-3K1"/>
                             <constraint firstAttribute="trailing" secondItem="gEW-E6-9ET" secondAttribute="trailing" id="6nd-KG-O0e"/>
-                            <constraint firstItem="ckL-wl-k12" firstAttribute="top" secondItem="fqy-nk-l00" secondAttribute="bottom" symbolic="YES" id="8e6-ER-nhe"/>
+                            <constraint firstItem="ckL-wl-k12" firstAttribute="top" secondItem="fqy-nk-l00" secondAttribute="bottom" id="8e6-ER-nhe"/>
+                            <constraint firstItem="VgG-bo-x0D" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="AoU-En-Gja"/>
+                            <constraint firstItem="fqy-nk-l00" firstAttribute="top" secondItem="ByS-Si-SAv" secondAttribute="top" constant="-20" id="I9I-KC-ABq"/>
                             <constraint firstItem="gEW-E6-9ET" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="IUh-T0-m8M"/>
-                            <constraint firstItem="ByS-Si-SAv" firstAttribute="top" secondItem="gEW-E6-9ET" secondAttribute="bottom" constant="30" id="NU4-TT-GLJ"/>
+                            <constraint firstItem="ByS-Si-SAv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="K96-wd-pY3"/>
+                            <constraint firstItem="VgG-bo-x0D" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="OBJ-m2-4qF"/>
                             <constraint firstItem="ByS-Si-SAv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PmR-W4-1E9"/>
-                            <constraint firstItem="fqy-nk-l00" firstAttribute="top" secondItem="gEW-E6-9ET" secondAttribute="bottom" symbolic="YES" id="TSG-pI-PPp"/>
+                            <constraint firstItem="fqy-nk-l00" firstAttribute="top" secondItem="gEW-E6-9ET" secondAttribute="bottom" id="TSG-pI-PPp"/>
                             <constraint firstItem="VgG-bo-x0D" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TiS-0i-tSF"/>
+                            <constraint firstItem="ByS-Si-SAv" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="a9I-f5-oFS"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ckL-wl-k12" secondAttribute="bottom" id="b58-64-kih"/>
                             <constraint firstItem="ckL-wl-k12" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="by2-WX-60Z"/>
-                            <constraint firstItem="ckL-wl-k12" firstAttribute="top" secondItem="VgG-bo-x0D" secondAttribute="bottom" constant="30" id="dXR-Pz-pYK"/>
-                            <constraint firstItem="fqy-nk-l00" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="e6T-a4-fty"/>
+                            <constraint firstItem="fqy-nk-l00" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="e6T-a4-fty"/>
                             <constraint firstItem="gEW-E6-9ET" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="hQS-Jq-bQC"/>
+                            <constraint firstItem="VgG-bo-x0D" firstAttribute="bottom" secondItem="fqy-nk-l00" secondAttribute="bottom" constant="-20" id="vVw-YO-lpQ"/>
                             <constraint firstAttribute="trailing" secondItem="ckL-wl-k12" secondAttribute="trailing" id="x38-Ze-CtL"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="bottomTextField" destination="VgG-bo-x0D" id="ain-ST-uMp"/>
+                        <outlet property="bottomToolbar" destination="ckL-wl-k12" id="fU9-op-3O5"/>
                         <outlet property="cameraButton" destination="1hX-gJ-gFF" id="gLj-bG-T5S"/>
                         <outlet property="imageView" destination="fqy-nk-l00" id="Ehe-Ax-Xmy"/>
+                        <outlet property="shareButton" destination="ziH-2o-eHz" id="7Ky-cP-OGn"/>
                         <outlet property="topTextField" destination="ByS-Si-SAv" id="vdI-SP-Wfv"/>
+                        <outlet property="topToolbar" destination="gEW-E6-9ET" id="58e-2C-QVV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="244" y="464"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="placeholder" width="450" height="450"/>
-    </resources>
 </document>
