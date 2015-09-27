@@ -18,22 +18,19 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var bottomToolbar: UIToolbar!
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
+    var meme: Meme?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let memeTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeColorAttributeName: UIColor.blackColor(),
-            NSStrokeWidthAttributeName: -3.0]
+        setupTextField(topTextField)
+        setupTextField(bottomTextField)
         
-        topTextField.delegate = self;
-        bottomTextField.delegate = self;
-        
-        topTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        
-        topTextField.textAlignment = NSTextAlignment.Center;
-        bottomTextField.textAlignment = NSTextAlignment.Center;
+        if meme != nil {
+            self.topTextField.text = meme?.topText
+            self.bottomTextField.text = meme?.bottomText
+            self.imageView.image = meme?.originalImage
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -43,18 +40,17 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         shareButton.enabled = (imageView.image != nil) ? true : false
         
-        self.subscribeToKeyboardNotifications()
+        subscribeToKeyboardNotifications()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.unsubscribeFromKeyboardNotifications()
+        unsubscribeFromKeyboardNotifications()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
     
     @IBAction func pickImageFromCamera(sender: AnyObject) {
@@ -62,7 +58,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         imagePickerController.delegate = self
         imagePickerController.sourceType = UIImagePickerControllerSourceType.Camera
         
-        self.presentViewController(imagePickerController, animated: true, completion: nil)
+        presentViewController(imagePickerController, animated: true, completion: nil)
     }
 
     @IBAction func pickImageFromAlbum(sender: AnyObject) {
@@ -70,7 +66,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         imagePickerController.delegate = self
         imagePickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         
-        self.presentViewController(imagePickerController, animated: true, completion: nil)
+        presentViewController(imagePickerController, animated: true, completion: nil)
         
     }
     
@@ -79,56 +75,80 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         let activityController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         
-        self.presentViewController(activityController, animated: true, completion: nil)
+        if (activityController.respondsToSelector("popoverPresentationController")) {
+            activityController.popoverPresentationController?.barButtonItem = shareButton
+        }
+        
+        presentViewController(activityController, animated: true, completion: nil)
         
         activityController.completionWithItemsHandler = {
             (activity, success, items, error) in
             self.save()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismissMemeEditor()
         }
     }
     
-    func save() -> Meme {
+    @IBAction func cancelMeme(sender: UIBarButtonItem) {
+        dismissMemeEditor()   
+    }
+    
+    func dismissMemeEditor() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func setupTextField(textField: UITextField) {
+        textField.delegate = self
         
-        let meme = Meme(topText: topTextField.text, bottomText: bottomTextField.text, image: imageView.image, memedImage: generateMemedImage())
+        let memeTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSStrokeColorAttributeName: UIColor.blackColor(),
+            NSStrokeWidthAttributeName: -3.0]
         
-        print("Meme saved.")
+        textField.defaultTextAttributes = memeTextAttributes
         
-        return meme
+        textField.textAlignment = NSTextAlignment.Center
+    }
+    
+    func save() {
+        
+        if self.meme?.topText != topTextField.text ||
+            self.meme?.bottomText != bottomTextField.text ||
+            self.meme?.originalImage != imageView.image {
+                
+                let meme = Meme(topText: topTextField.text, bottomText: bottomTextField.text, originalImage: imageView.image, memedImage: generateMemedImage())
+                
+                (UIApplication.sharedApplication().delegate as! AppDelegate).memes.append(meme)
+        }
         
     }
     
     func generateMemedImage() -> UIImage {
         
-        topToolbar.hidden = true;
-        bottomToolbar.hidden = true;
+        topToolbar.hidden = true
+        bottomToolbar.hidden = true
         
         UIGraphicsBeginImageContext(self.view.frame.size)
-        self.view.drawViewHierarchyInRect(self.view.frame, afterScreenUpdates: true)
+        view.drawViewHierarchyInRect(self.view.frame, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        topToolbar.hidden = false;
-        bottomToolbar.hidden = false;
+        topToolbar.hidden = false
+        bottomToolbar.hidden = false
         
         return memedImage
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
     func keyboardWillShow(notification: NSNotification) {
-        // only shift if editing in bottomTextField and the view hasn't been shifted already
-        if bottomTextField.editing && self.view.frame.origin.y == 0 {
-            self.view.frame.origin.y -= getKeyboardHeight(notification);
+        // only shift if editing in bottomTextField
+        if bottomTextField.editing {
+            view.frame.origin.y = -getKeyboardHeight(notification)
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        // only shift back if editing in bottomTextField and the view has already been shifted
-        if bottomTextField.editing && self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y += getKeyboardHeight(notification);
+        // only shift back if editing in bottomTextField
+        if bottomTextField.editing {
+            view.frame.origin.y = 0
         }
     }
     
@@ -159,11 +179,16 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             }
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        dismissImagePicker()
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissImagePicker()
+    }
+    
+    func dismissImagePicker() {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: UITextField methods
@@ -174,27 +199,27 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     func textFieldDidBeginEditing(textField: UITextField) {
         
         if (textField == topTextField && firstTimeEditingTop) {
-            textField.text = "";
+            textField.text = ""
         }
         
         if (textField == bottomTextField && firstTimeEditingBottom) {
-            textField.text = "";
+            textField.text = ""
         }
     
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
         if (textField == topTextField && firstTimeEditingTop) {
-            firstTimeEditingTop = false;
+            firstTimeEditingTop = false
         }
         
         if (textField == bottomTextField && firstTimeEditingBottom) {
-            firstTimeEditingBottom = false;
+            firstTimeEditingBottom = false
         }
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder();
+        textField.resignFirstResponder()
         return true
     }
 
