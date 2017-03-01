@@ -12,7 +12,7 @@ class SentMemesTableViewController: UITableViewController {
     
     var memes: [Meme] {
         get {
-            return (UIApplication.sharedApplication().delegate as! AppDelegate).memes
+            return (UIApplication.shared.delegate as! AppDelegate).memes
         }
     }
 
@@ -21,19 +21,19 @@ class SentMemesTableViewController: UITableViewController {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memes.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("sentMemeCell", forIndexPath: indexPath) as! SentMemeTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "sentMemeCell", for: indexPath) as! SentMemeTableViewCell
 
         cell.meme = memes[indexPath.row]
 
@@ -42,12 +42,12 @@ class SentMemesTableViewController: UITableViewController {
         
     // MARK: - Navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
-            let detailVC = segue.destinationViewController as! MemeDetailViewController
+            let detailVC = segue.destination as! MemeDetailViewController
             let selectedCell = sender as! SentMemeTableViewCell
             detailVC.meme = selectedCell.meme
-            detailVC.memeIndex = tableView.indexPathForCell(selectedCell)?.row
+            detailVC.memeIndex = tableView.indexPath(for: selectedCell)?.row
         }
     }
 }

@@ -16,7 +16,7 @@ class SentMemesCollectionViewController: UICollectionViewController {
     
     var memes: [Meme] {
         get {
-            return (UIApplication.sharedApplication().delegate as! AppDelegate).memes
+            return (UIApplication.shared.delegate as! AppDelegate).memes
         }
     }
 
@@ -29,22 +29,22 @@ class SentMemesCollectionViewController: UICollectionViewController {
         
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space;
-        flowLayout.itemSize = CGSizeMake(cellWidth, cellHeight)
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionView?.reloadData()
     }
 
     // MARK: UICollectionViewDataSource
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return memes.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! SentMemeCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SentMemeCollectionViewCell
     
         // Configure the cell
         cell.meme = memes[indexPath.row];
@@ -54,11 +54,12 @@ class SentMemesCollectionViewController: UICollectionViewController {
     
     // MARK: - Navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
-            let detailVC = segue.destinationViewController as! MemeDetailViewController
+            let detailVC = segue.destination as! MemeDetailViewController
             let selectedCell = sender as! SentMemeCollectionViewCell
             detailVC.meme = selectedCell.meme
+            detailVC.memeIndex = collectionView?.indexPath(for: selectedCell)?.row
         }
     }
 

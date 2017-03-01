@@ -21,32 +21,32 @@ class MemeDetailViewController: UIViewController {
         
         imageView.image = meme?.memedImage
         
-        editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action: "editMeme")
+        editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(MemeDetailViewController.editMeme))
         navigationItem.rightBarButtonItem = editButton
         
     }
     
     func editMeme() {
-        let alertController = UIAlertController(title:nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-        alertController.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.Destructive, handler: { (UIAlertAction) -> Void in
+        let alertController = UIAlertController(title:nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        alertController.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { (UIAlertAction) -> Void in
             if let index = self.memeIndex {
-                (UIApplication.sharedApplication().delegate as! AppDelegate).memes.removeAtIndex(index)
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                (UIApplication.shared.delegate as! AppDelegate).memes.remove(at: index)
+                self.navigationController?.popToRootViewController(animated: true)
             }
             
         }))
         
-        alertController.addAction(UIAlertAction(title: "Edit", style: UIAlertActionStyle.Default, handler: { (UIAlertAction) -> Void in
-            let memeEditor = self.storyboard?.instantiateViewControllerWithIdentifier("MemeEditorViewController") as! MemeEditorViewController
+        alertController.addAction(UIAlertAction(title: "Edit", style: UIAlertActionStyle.default, handler: { (UIAlertAction) -> Void in
+            let memeEditor = self.storyboard?.instantiateViewController(withIdentifier: "MemeEditorViewController") as! MemeEditorViewController
             memeEditor.meme = self.meme
-            self.navigationController?.presentViewController(memeEditor, animated: true, completion: nil)
+            self.navigationController?.present(memeEditor, animated: true, completion: nil)
         }))
         
-        if (alertController.respondsToSelector("popoverPresentationController")) {
+        if (alertController.responds(to: #selector(getter: UIViewController.popoverPresentationController))) {
             alertController.popoverPresentationController?.barButtonItem = editButton
         }
         
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
 }
